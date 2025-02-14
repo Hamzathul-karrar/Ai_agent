@@ -1,19 +1,25 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function Logout() {
+function Logout( onLogout) {
   const navigate = useNavigate();
 
   useEffect(() => {
     // Clear authentication data
-    localStorage.removeItem("authToken");
-    sessionStorage.clear();
+    // localStorage.removeItem("isAuthenticated"); // ✅ Ensure authentication status is cleared
+    // sessionStorage.clear();
 
-    // Redirect to home or login page
+    onLogout();
+    // Redirect to login page
     navigate("/login");
-  }, [navigate]);
+  }, [navigate, onLogout]);
 
   return <h1>Logging out...</h1>;
 }
+
+Logout.propTypes = {
+  onLogout: PropTypes.func.isRequired, // 🔹 onLogout should be a function and required
+};
 
 export default Logout;
