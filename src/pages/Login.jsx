@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types'; // ✅ Import PropTypes
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
@@ -25,15 +25,15 @@ function Login({ onLogin }) { // ✅ Accept onLogin as a prop
     }
   };
 
-
   return (
-    <div className="container">
-      <div className="heading">Sign In</div>
-      <form onSubmit={handleSubmit} className="form">
+    <div className="login-container"> {/* ✅ Added specific class for Login */}
+      
+      <form onSubmit={handleSubmit} className="login-form"> {/* ✅ Updated class names */}
+      <div className="login-heading">Sign In</div>
         <input
           required
-          className="input"
-          type="username"
+          className="login-input"
+          type="text"
           name="username"
           id="username"
           placeholder="Username"
@@ -42,7 +42,7 @@ function Login({ onLogin }) { // ✅ Accept onLogin as a prop
         />
         <input
           required
-          className="input"
+          className="login-input"
           type="password"
           name="password"
           id="password"
@@ -52,11 +52,10 @@ function Login({ onLogin }) { // ✅ Accept onLogin as a prop
         />
 
         <input className="login-button" type="submit" value="Sign In" />
-        <div className="signup-link">
-          New user? <Link to="/signup" style={{ cursor: 'pointer' }}>Sign up</Link>
+        <div className="login-signup-link"> {/* ✅ Updated class name */}
+          New user? <Link to="/signup" className="login-signup-link-text">Sign up</Link>
         </div>
       </form>
-
     </div>
   );
 }

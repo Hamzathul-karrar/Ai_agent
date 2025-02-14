@@ -1,71 +1,62 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Prevent scrollbars */
-  font-family: 'Poppins', sans-serif;
-}
-
-
-body {
-  width: auto;
+/* Make styles apply only to login page */
+.login-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height */
   background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
   color: white;
 }
 
-/* Glassmorphism effect for modern UI */
-.container {
-  width: 90%;              /* Increased from previous value */
-  max-width: 800px;        /* Increased from 400px to match signup page */
-  box-sizing: border-box;  
+/* Login box */
+.login-form {
+  width: 90%;
+  max-width: 400px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
-  border-radius: 20px;
-  padding: 35px 40px;      /* Increased padding to match signup */
+  padding: 35px;
+  border-radius: 12px;
   border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 25px 50px -10px;
-  margin: 20px auto;       /* Added margin for better spacing */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-.heading {
+/* Heading */
+.login-heading {
   font-size: 28px;
-  font-weight: 700;
+  font-weight: bold;
+  margin-bottom: 20px;
   color: #00d4ff;
 }
 
-.form {
-  margin-top: 20px;
-}
-
-.form .input {
-  width: 100%;
+/* Input fields */
+.login-input {
+  width: 85%;
   background: rgba(255, 255, 255, 0.1);
   border: none;
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 8px;
   margin-top: 15px;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   box-shadow: rgba(0, 255, 255, 0.3) 0px 5px 15px -5px;
   transition: all 0.3s ease-in-out;
 }
 
-.form .input::placeholder {
+.login-input::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.form .input:focus {
+.login-input:focus {
   outline: none;
   border: 2px solid #00d4ff;
   box-shadow: 0px 0px 10px #00d4ff;
 }
 
-/* Modern button with hover effects */
-.form .login-button {
-  width: 100%;
+/* Button */
+.login-button {
+  width: 93%;
   font-weight: bold;
   background: linear-gradient(45deg, #00d4ff, #007bff);
   color: white;
@@ -78,37 +69,27 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-.form .login-button:hover {
+.login-button:hover {
   background: linear-gradient(45deg, #00ffff, #0088ff);
   box-shadow: 0px 0px 15px rgba(0, 221, 255, 0.8);
 }
 
-.form .login-button:active {
+.login-button:active {
   transform: scale(0.95);
 }
 
-.signup-link {
+/* Sign-up link */
+.login-signup-link {
   margin-top: 15px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
-.signup-link a {
+.login-signup-link-text {
   color: #00d4ff;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-.signup-link a:hover {
+.login-signup-link-text:hover {
   text-decoration: underline;
-}
-
-
-/* Prevent autofill from changing the background color */
-.input:-webkit-autofill,
-.input:-webkit-autofill:hover,
-.input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px rgba(255,255,255,0.1) inset !important;
-  box-shadow: 0 0 0px 1000px rgba(255,255,255,0.1) inset !important;
-  -webkit-text-fill-color: #fff !important;
-  transition: background-color 5000s ease-in-out 0s;
 }

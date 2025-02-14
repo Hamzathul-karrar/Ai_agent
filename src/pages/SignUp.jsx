@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './SignUp.css';
 
@@ -24,19 +24,18 @@ function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log('Form submitted:', formData);
-    // Redirect to login page after successful signup
-    navigate('/login');
+    navigate('/login'); // Redirect to login after signup
   };
 
   return (
-    <div className="container">
-      <div className="heading">Sign Up</div>
-      <form onSubmit={handleSubmit} className="form">
+    <div className="signup-container">
+      
+      <form onSubmit={handleSubmit} className="signup-form">
+      <div className="signup-heading">Sign Up</div>
         <input
           required
-          className="input"
+          className="signup-input"
           type="text"
           name="name"
           placeholder="Full Name"
@@ -45,7 +44,7 @@ function SignUp() {
         />
         <input
           required
-          className="input"
+          className="signup-input"
           type="text"
           name="username"
           placeholder="Username"
@@ -54,7 +53,7 @@ function SignUp() {
         />
         <input
           required
-          className="input"
+          className="signup-input"
           type="email"
           name="email"
           placeholder="Email"
@@ -63,7 +62,7 @@ function SignUp() {
         />
         <input
           required
-          className="input"
+          className="signup-input"
           type="password"
           name="password"
           placeholder="Password"
@@ -72,7 +71,7 @@ function SignUp() {
         />
         <input
           required
-          className="input"
+          className="signup-input"
           type="text"
           name="companyName"
           placeholder="Company Name"
@@ -80,7 +79,7 @@ function SignUp() {
           onChange={handleChange}
         />
         <textarea
-          className="input textarea"
+          className="signup-input signup-textarea"
           name="companyDescription"
           placeholder="Company Description"
           value={formData.companyDescription}
@@ -88,20 +87,20 @@ function SignUp() {
         />
         <input
           required
-          className="input"
+          className="signup-input"
           type="text"
           name="contactInfo"
           placeholder="Website or Phone Number"
           value={formData.contactInfo}
           onChange={handleChange}
         />
-        <input className="login-button" type="submit" value="Sign Up" />
-        <div className="signup-link">
-          Already have an account? <Link to="/login">Sign in</Link>
+        <input className="signup-button" type="submit" value="Sign Up" />
+        <div className="signup-login-link">
+          Already have an account? <Link to="/login" className="signup-login-link-text">Sign in</Link>
         </div>
       </form>
     </div>
   );
 }
 
-export default SignUp; 
+export default SignUp;
