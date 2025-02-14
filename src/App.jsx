@@ -10,7 +10,7 @@ import "./pages/App.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "true"
+    localStorage.getItem("isAuthenticated") === "false"
   );
 
   const handleLogin = () => {
