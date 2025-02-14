@@ -33,6 +33,7 @@ function Home() {
     } catch (error) {
       console.error("Error sending request:", error);
       setMessage("Error while scraping.");
+      setLoading(false)
     }
   };
 
