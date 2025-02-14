@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PropTypes from 'prop-types'; // ✅ Import PropTypes
 import Home from './pages/Home';
 import Result from './pages/Result';
 import Logout from './pages/Logout';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
+import AuthenticationTitle from './pages/Login';
 import './pages/App.css';
 
 function App() {
@@ -14,12 +13,12 @@ function App() {
   );
 
   const handleLogin = () => {
-    setIsAuthenticated(true); // ✅ Set user as logged in
+    setIsAuthenticated(true); 
     localStorage.setItem("isAuthenticated", "true");
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false); // ❌ Set user as logged out
+    setIsAuthenticated(false);
     localStorage.removeItem("isAuthenticated");
   };
 
@@ -37,11 +36,7 @@ function App() {
           </div>
         </div>
       ) : (
-        <Routes>
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
+        <AuthenticationTitle onLogin={handleLogin} /> // ✅ Pass login function
       )}
     </Router>
   );

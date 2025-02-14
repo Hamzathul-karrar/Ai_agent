@@ -3,21 +3,37 @@ import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
-  const [input1, setInput1] = useState('');
-  const [input2, setInput2] = useState('');
+  const [location, setLocation] = useState('');
+  const [businessType, setBusinessType] = useState('');
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Search clicked with values:', input1, input2);
+    console.log('Search clicked with values:', location, businessType);
+    setLoading(true)
 
-    setLoading(true);
+    try {
+      const response = await fetch("http://localhost:8080/api/scrape", {
+        method: "POST", // ✅ Use POST instead of GET
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          businessType,
+          location,
+        }),
+      });
 
-    setTimeout(() => {
-      setLoading(false); // ✅ Hide loading state
-      navigate('/result'); // ✅ Redirect after delay
-    }, 10000);
+      const result = await response.text(); // ✅ Get response from backend
+      setMessage(result); // ✅ Show API response
+      setLoading(false)
+      navigate('/result');
+    } catch (error) {
+      console.error("Error sending request:", error);
+      setMessage("Error while scraping.");
+    }
   };
 
   return (
@@ -36,8 +52,8 @@ function Home() {
           <input
             type="text"
             id="input1"
-            value={input1}
-            onChange={(e) => setInput1(e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Enter location" required
               // 🔹 Added for location suggestions
           />
@@ -48,8 +64,8 @@ function Home() {
           <input
             type="text"
             id="input2"
-            value={input2}
-            onChange={(e) => setInput2(e.target.value)}
+            value={businessType}
+            onChange={(e) => setBusinessType(e.target.value)}
             placeholder="Enter company" required
           />
         </div>
@@ -57,6 +73,9 @@ function Home() {
         <button type="submit" disabled={loading}>Search</button>
       </form>
       )}
+      {message && <p className="response-message">{message}</p>} {/* ✅ Show API response */}
+
+
     </div>
   );
 }
