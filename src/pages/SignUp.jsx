@@ -28,10 +28,8 @@ function SignUp() {
     e.preventDefault();
     setError(null); // Clear previous errors
 
-    console.log("Form Data Submitted:", formData); // ✅ Print form data in console
-
     try {
-      const response = await fetch('http://localhost:8080/api/signup', { // 🔹 Update with your backend URL
+      const response = await fetch('http://localhost:8080/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -39,13 +37,25 @@ function SignUp() {
         body: JSON.stringify(formData)
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to sign up');
+      console.log("Response Status:", response.status);
+
+      // ✅ Allow both 200 OK and 201 Created as successful responses
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`Signup failed. Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log('Signup successful:', data); // ✅ Print server response
-      
+      const responseBody = await response.text(); // Get raw response body
+      console.log("Raw Response Body:", responseBody);
+
+      let data;
+      try {
+        data = JSON.parse(responseBody); // Try to parse JSON
+      } catch (err) {
+        console.warn("Response is not JSON, but signup likely succeeded.");
+        data = { message: responseBody }; // Use text response if not JSON
+      }
+
+      console.log('Signup successful:', data);
       navigate('/login'); // Redirect to login page after success
 
     } catch (error) {
