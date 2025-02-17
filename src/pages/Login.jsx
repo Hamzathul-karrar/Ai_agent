@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios'; // ✅ Import Axios
+import axios from 'axios'; 
 import './Login.css';
 
 function Login({ onLogin }) {
@@ -12,19 +12,18 @@ function Login({ onLogin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null); 
 
     try {
-      // ✅ Use axios.post to send credentials to the backend
       const { data } = await axios.post('http://localhost:8080/api/login', { username, password });
       console.log('Login successful:', data);
 
-      // ✅ Call login function from App.jsx and redirect to Home
+      
       onLogin();
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
-      // ✅ Extract error message from axios response, if available
+      
       const errorMessage = error.response?.data?.error || error.message || 'Invalid username or password!';
       setError(errorMessage);
     }

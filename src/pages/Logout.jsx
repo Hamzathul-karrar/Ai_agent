@@ -6,12 +6,9 @@ function Logout( onLogout) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Clear authentication data
-    // localStorage.removeItem("isAuthenticated"); // ✅ Ensure authentication status is cleared
-    // sessionStorage.clear();
+    
 
     onLogout();
-    // Redirect to login page
     navigate("/login");
   }, [navigate, onLogout]);
 
@@ -19,7 +16,7 @@ function Logout( onLogout) {
 }
 
 Logout.propTypes = {
-  onLogout: PropTypes.func.isRequired, // 🔹 onLogout should be a function and required
+  onLogout: PropTypes.func.isRequired, 
 };
 
 export default Logout;

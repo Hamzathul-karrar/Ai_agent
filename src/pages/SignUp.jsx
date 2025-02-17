@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios'; // ✅ Import Axios
+import axios from 'axios'; 
 import './SignUp.css';
 
 function SignUp() {
@@ -27,7 +27,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null); // Clear previous errors
+    setError(null); 
 
     try {
       const response = await axios.post(
@@ -40,13 +40,13 @@ function SignUp() {
 
       console.log("Response Status:", response.status);
 
-      // ✅ Allow both 200 OK and 201 Created as successful responses
+      
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Signup failed. Status: ${response.status}`);
       }
 
       console.log('Signup successful:', response.data);
-      navigate('/login'); // Redirect to login page after success
+      navigate('/login'); 
 
     } catch (error) {
       console.error('Signup error:', error);

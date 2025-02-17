@@ -27,11 +27,10 @@ function App() {
     <Router>
       <Routes>
         {!isAuthenticated ? (
-          // ✅ Show Login Page first if not authenticated
           <>
             <Route path="/" element={<Login onLogin={handleLogin} />} />
             <Route path="/signup" element={<SignUp />} />
-            {/* ✅ If user tries to access protected routes, redirect to Login */}
+           
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (
@@ -45,7 +44,6 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/result" element={<Result />} />
                     <Route path="/logout" element={<Logout onLogout={handleLogout} />} />
-                    {/* ✅ If user tries to access unknown route, redirect to Home */}
                     <Route path="*" element={<Navigate to="/" />} />
                   </Routes>
                 </div>
@@ -59,11 +57,11 @@ function App() {
 }
 
 function Sidebar({ handleLogout }) {
-  const navigate = useNavigate(); // ✅ Correct way to navigate
+  const navigate = useNavigate(); 
 
   const handleLogoutClick = () => {
-    handleLogout(); // ✅ Clear authentication
-    navigate("/"); // ✅ Redirect to Login page
+    handleLogout(); 
+    navigate("/"); 
   };
 
   return (
