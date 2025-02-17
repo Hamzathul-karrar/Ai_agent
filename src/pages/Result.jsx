@@ -36,13 +36,6 @@ function Result() {
     }
   }
 
-  function handleCallButtonClick(phone) {
-    if (phone && phone !== "N/A") {
-      console.log(`Calling: ${phone}`);
-      sendDataToBackend("call", { phone });
-    }
-  }
-
   function handleEmailButtonClick(email) {
     if (email && email !== "N/A") {
       console.log(`Sending email to: ${email}`);
@@ -113,12 +106,12 @@ function Result() {
                   <td>{item.email}</td>
                   <td>
                     <div className="button-container">
-                      <button
+                      <a
+                        href={`tel:${item.phone}`}
                         className="action-button"
-                        onClick={() => handleCallButtonClick(item.phone)}
                       >
                         Call
-                      </button>
+                      </a>
                       <button
                         className="action-button"
                         onClick={() => handleEmailButtonClick(item.email)}
