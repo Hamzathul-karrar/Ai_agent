@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios"; 
+import axios from "axios";
 import "./Result.css";
 
 function Result() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [buttonState, setButtonState] = useState({}); // Track button state
 
   useEffect(() => {
     axios
@@ -23,7 +24,7 @@ function Result() {
       });
   }, []);
 
-  async function sendDataToBackend(endpoint, payload) {
+  async function sendDataToBackend(endpoint, payload, id) {
     try {
       const response = await axios.post(
         `http://localhost:8080/api/${endpoint}`,
@@ -31,15 +32,21 @@ function Result() {
         { headers: { "Content-Type": "application/json" } }
       );
       console.log(`${endpoint} successful:`, response.data);
+      
+      // Update the button state (mark as sent)
+      setButtonState((prevState) => ({
+        ...prevState,
+        [id]: { sent: true }, // Update the button state for this email
+      }));
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);
     }
   }
 
-  function handleEmailButtonClick(email) {
+  function handleEmailButtonClick(email, id) {
     if (email && email !== "N/A") {
       console.log(`Sending email to: ${email}`);
-      sendDataToBackend("send-mail", { email });
+      sendDataToBackend("send-mail", { email }, id);
     }
   }
 
@@ -113,10 +120,12 @@ function Result() {
                         Call
                       </a>
                       <button
-                        className="action-button"
-                        onClick={() => handleEmailButtonClick(item.email)}
+                        className={`action-button ${
+                          buttonState[item.id]?.sent ? "sent" : ""
+                        }`}
+                        onClick={() => handleEmailButtonClick(item.email, item.id)}
                       >
-                        Send Mail
+                        {buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
                       </button>
                     </div>
                   </td>
