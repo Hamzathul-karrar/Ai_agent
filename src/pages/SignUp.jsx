@@ -44,18 +44,9 @@ function SignUp() {
         throw new Error(`Signup failed. Status: ${response.status}`);
       }
 
-      const responseBody = await response.text(); // Get raw response body
-      console.log("Raw Response Body:", responseBody);
-
-      let data;
-      try {
-        data = JSON.parse(responseBody); // Try to parse JSON
-      } catch (err) {
-        console.warn("Response is not JSON, but signup likely succeeded.",err);
-        data = { message: responseBody }; // Use text response if not JSON
-      }
-
-      console.log('Signup successful:', data);
+      const data = await response.json();
+      console.log('Signup successful:', data); // ✅ Print server response
+      
       navigate('/login'); // Redirect to login page after success
 
     } catch (error) {

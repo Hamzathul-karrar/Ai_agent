@@ -19,20 +19,50 @@ function Result() {
       });
   }, []);
 
+  async function sendDataToBackend(endpoint, payload) {
+    try {
+      const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to send ${endpoint}`);
+      }
+
+      const result = await response.json();
+      console.log(`${endpoint} successful:`, result);
+    } catch (error) {
+      console.error(`Error sending ${endpoint}:`, error);
+    }
+  }
+
   function handleCallButtonClick(phone) {
-    console.log(`Call button clicked: ${phone}`);
+    if (phone && phone !== "N/A") {
+      console.log(`Calling: ${phone}`);
+      sendDataToBackend("call", { phone });
+    }
   }
 
   function handleEmailButtonClick(email) {
-    console.log(`Email button clicked: ${email}`);
+    if (email && email !== "N/A") {
+      console.log(`Sending email to: ${email}`);
+      sendDataToBackend("send-mail", { email });
+    }
   }
 
-  function handleAllMails(data) {
-    data.forEach((item) => {
-      if (item.email !== "Not Available") {
-        console.log(item.email);
-      }
-    });
+  function handleAllMails() {
+    const validEmails = data
+      .filter((item) => item.email && item.email !== "N/A")
+      .map((item) => item.email);
+
+    if (validEmails.length > 0) {
+      console.log("Sending emails to:", validEmails);
+      sendDataToBackend("send-all-mails", { emails: validEmails });
+    } else {
+      console.log("No valid emails available.");
+    }
   }
 
   return (
@@ -45,7 +75,7 @@ function Result() {
       ) : (
         <div>
           <div className="btn-all-container">
-            <button className="mail-all-btn" onClick={() => handleAllMails(data)}>
+            <button className="mail-all-btn" onClick={handleAllMails}>
               Mail To All
             </button>
           </div>
