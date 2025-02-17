@@ -25,9 +25,9 @@ function Home() {
           responseType: 'text', // Use this if your response is plain text
         }
       );
-
-      setMessage(response.data); // ✅ Set the response message
       setLoading(false);
+      setMessage(response.data); // ✅ Set the response message
+      
       navigate('/result');
     } catch (error) {
       console.error("Error sending request:", error);

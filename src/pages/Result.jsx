@@ -11,7 +11,9 @@ function Result() {
       .get("http://localhost:8080/api/businesses")
       .then((response) => {
         const resData = response.data;
-        const formattedData = Array.isArray(resData) ? resData : resData.businesses || [];
+        const formattedData = Array.isArray(resData)
+          ? resData
+          : resData.businesses || [];
         setData(formattedData);
         setLoading(false);
       })
@@ -65,7 +67,10 @@ function Result() {
     <div className="result-container">
       <h1>Result</h1>
       {loading ? (
-        <p>Loading Data...</p>
+        <div className="loader-container">
+          <l-trio size="40" speed="1.3" color="black"></l-trio>
+          <p>Loading... Please wait</p>
+        </div>
       ) : data.length === 0 ? (
         <p>No Data Found.</p>
       ) : (
@@ -94,7 +99,11 @@ function Result() {
                   <td>{item.phone || "N/A"}</td>
                   <td>
                     {item.website ? (
-                      <a href={item.website} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={item.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {item.website}
                       </a>
                     ) : (
@@ -104,10 +113,16 @@ function Result() {
                   <td>{item.email}</td>
                   <td>
                     <div className="button-container">
-                      <button className="action-button" onClick={() => handleCallButtonClick(item.phone)}>
+                      <button
+                        className="action-button"
+                        onClick={() => handleCallButtonClick(item.phone)}
+                      >
                         Call
                       </button>
-                      <button className="action-button" onClick={() => handleEmailButtonClick(item.email)}>
+                      <button
+                        className="action-button"
+                        onClick={() => handleEmailButtonClick(item.email)}
+                      >
                         Send Mail
                       </button>
                     </div>
