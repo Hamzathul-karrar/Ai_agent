@@ -6,24 +6,40 @@ import './Login.css';
 function Login({ onLogin }) { // ✅ Accept onLogin as a prop
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [, setError] = useState('');
   const navigate = useNavigate();
 
-  const validUser = {
-    username: 'a',
-    password: 'a',
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === validUser.username && password === validUser.password) {
-      setError('');
-      onLogin(); // ✅ Call the login function from App.jsx
-      navigate('/'); // ✅ Redirect to Home
-    } else {
-      setError('Invalid username or password!');
+    setError(null); // Clear previous errors
+
+    try {
+        const response = await fetch('http://localhost:8080/api/login', { // 🔹 Update with your backend URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password }) // ✅ Send username & password to backend
+        });
+
+        const data = await response.json(); // ✅ Read response JSON
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Login failed');
+        }
+
+        console.log('Login successful:', data); // ✅ Debugging log
+        
+        alert("Login successful! Redirecting to home."); // ✅ User feedback
+        onLogin(); // ✅ Call login function from App.jsx
+        navigate('/'); // ✅ Redirect to Home
+
+    } catch (error) {
+        console.error('Login error:', error);
+        setError(error.message || 'Invalid username or password!', error);
     }
-  };
+};
+
 
   return (
     <div className="login-container"> {/* ✅ Added specific class for Login */}
