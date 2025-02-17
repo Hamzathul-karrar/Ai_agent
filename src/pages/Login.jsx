@@ -30,7 +30,7 @@ function Login({ onLogin }) { // ✅ Accept onLogin as a prop
 
         console.log('Login successful:', data); // ✅ Debugging log
         
-        alert("Login successful! Redirecting to home."); // ✅ User feedback
+        // ✅ User feedback
         onLogin(); // ✅ Call login function from App.jsx
         navigate('/'); // ✅ Redirect to Home
 
