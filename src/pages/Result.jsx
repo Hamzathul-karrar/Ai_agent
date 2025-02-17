@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios"; // ✅ Import Axios
 import "./Result.css";
 
 function Result() {
@@ -6,10 +7,11 @@ function Result() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/businesses")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedData = Array.isArray(data) ? data : data.businesses || [];
+    axios
+      .get("http://localhost:8080/api/businesses")
+      .then((response) => {
+        const resData = response.data;
+        const formattedData = Array.isArray(resData) ? resData : resData.businesses || [];
         setData(formattedData);
         setLoading(false);
       })
@@ -21,18 +23,12 @@ function Result() {
 
   async function sendDataToBackend(endpoint, payload) {
     try {
-      const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to send ${endpoint}`);
-      }
-
-      const result = await response.json();
-      console.log(`${endpoint} successful:`, result);
+      const response = await axios.post(
+        `http://localhost:8080/api/${endpoint}`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(`${endpoint} successful:`, response.data);
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);
     }
