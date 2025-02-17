@@ -184,3 +184,8 @@ td a:hover::after {
         font-size: 12px;
     }
 }
+.action-button.sent {
+    background-color: green;  /* Green color when sent */
+    color: white;
+  }
+  
