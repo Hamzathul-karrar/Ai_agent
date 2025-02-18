@@ -4,9 +4,9 @@ import "./Result.css";
 
 function Result() {
   const [data, setData] = useState([]);
-  const [loadingState, setLoadingState] = useState({}); // Row-specific loading state
+  const [loadingState, setLoadingState] = useState({}); 
   const [buttonState, setButtonState] = useState({});
-  const [mailAllLoading, setMailAllLoading] = useState(false); // Global loading for "Mail To All"
+  const [mailAllLoading, setMailAllLoading] = useState(false); 
 
   useEffect(() => {
     axios
@@ -24,7 +24,7 @@ function Result() {
   async function sendDataToBackend(endpoint, payload, id) {
     try {
       if (id) {
-        setLoadingState((prev) => ({ ...prev, [id]: true })); // Set loading for specific row
+        setLoadingState((prev) => ({ ...prev, [id]: true })); 
       }
 
       const response = await axios.post(
@@ -35,15 +35,15 @@ function Result() {
       console.log(`${endpoint} successful:`, response.data);
 
       if (id) {
-        setButtonState((prev) => ({ ...prev, [id]: { sent: true } })); // Mark email as sent
-        setLoadingState((prev) => ({ ...prev, [id]: false })); // Stop loading for this row
+        setButtonState((prev) => ({ ...prev, [id]: { sent: true } }));
+        setLoadingState((prev) => ({ ...prev, [id]: false })); 
       } else {
-        setMailAllLoading(false); // Stop "Mail To All" loading
+        setMailAllLoading(false); 
       }
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);
       if (id) {
-        setLoadingState((prev) => ({ ...prev, [id]: false })); // Stop loading in case of error
+        setLoadingState((prev) => ({ ...prev, [id]: false })); 
       } else {
         setMailAllLoading(false);
       }
@@ -54,10 +54,8 @@ function Result() {
     if (email && email !== "N/A") {
       console.log(`Sending email to: ${email}`);
 
-      // Get job type from local storage
       const jobType = localStorage.getItem("businessType");
 
-      // Get user details from session storage (username, password)
       const storedUsername = sessionStorage.getItem("username");
       const storedPassword = sessionStorage.getItem("password");
 
@@ -66,7 +64,6 @@ function Result() {
         return;
       }
 
-      // Fetch user details from the Signup table
       axios
         .get(
           `http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`
@@ -75,7 +72,6 @@ function Result() {
           if (response.data) {
             const { name: senderName, companyName, companyDescription, contactInfo } = response.data;
 
-            // Construct email payload
             const payload = {
               recipientEmail: email,
               recipientName: name,
@@ -87,7 +83,6 @@ function Result() {
               contact: contactInfo,
             };
 
-            // Call the function to send data to the backend
             sendDataToBackend("send", payload, id);
           } else {
             console.error("User details not found in the database.");
@@ -106,7 +101,7 @@ function Result() {
 
     if (validEmails.length > 0) {
       console.log("Sending emails to:", validEmails);
-      setMailAllLoading(true); // Start loading for "Mail To All"
+      setMailAllLoading(true); 
       sendDataToBackend("send-all-mails", { emails: validEmails });
     } else {
       console.log("No valid emails available.");
@@ -148,11 +143,7 @@ function Result() {
                   <td>{item.phone || "N/A"}</td>
                   <td>
                     {item.website ? (
-                      <a
-                        href={item.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href={item.website} target="_blank" rel="noopener noreferrer">
                         {item.website}
                       </a>
                     ) : (

@@ -1,17 +1,14 @@
-/* Make the result container take full space */
-
 .result-container {
-    flex: 1; /* Take up remaining space */
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 0px;
     background-color: #fff;
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    overflow-x: auto;
     width: 100%;
 }
 
-/* Make the table occupy full width */
 table {
     width: 100%;
     max-width: 100%;
@@ -20,10 +17,9 @@ table {
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
-    table-layout: fixed; /* Prevents weird column sizes */
+    table-layout: fixed;
 }
 
-/* Table header */
 thead {
     background-color: #2d3748;
     color: white;
@@ -36,7 +32,6 @@ thead th {
     white-space: nowrap;
 }
 
-/* Table rows */
 tbody tr {
     border-bottom: 1px solid #ddd;
     transition: background 0.3s ease-in-out;
@@ -46,51 +41,47 @@ tbody tr:hover {
     background-color: #f1f1f1;
 }
 
-/* Table cells */
 td {
     padding: 10px;
     text-align: center;
     font-size: 1rem;
     word-break: break-word;
     max-width: 100px;
-    overflow-wrap: anywhere; /* Allows long text to break naturally */
+    overflow-wrap: anywhere;
 }
 
-/* Adjust column widths */
-th:nth-child(1), td:nth-child(1) { width: 5%; min-width: 50px; }  /* ID */
-th:nth-child(2), td:nth-child(2) { width: 20%; min-width: 120px; } /* Company Name */
-th:nth-child(3), td:nth-child(3) { width: 15%; min-width: 100px; } /* Number */
-th:nth-child(4), td:nth-child(4) { width: 22.5%; min-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } /* Website */
-th:nth-child(5), td:nth-child(5) { width: 22.5%; min-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } /* Email */
-th:nth-child(6), td:nth-child(6) { width: 15%; min-width: 100px; } /* Button Column */
+th:nth-child(1), td:nth-child(1) { width: 5%; min-width: 50px; }
+th:nth-child(2), td:nth-child(2) { width: 20%; min-width: 120px; }
+th:nth-child(3), td:nth-child(3) { width: 15%; min-width: 100px; }
+th:nth-child(4), td:nth-child(4) { width: 22.5%; min-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+th:nth-child(5), td:nth-child(5) { width: 22.5%; min-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+th:nth-child(6), td:nth-child(6) { width: 15%; min-width: 100px; }
 
-/* Hyperlink styling */
 td a {
     color: #3182ce;
     text-decoration: none;
     font-weight: bold;
     display: block;
-    max-width: 100%; 
+    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap; /* Keeps the link in one line */
+    white-space: nowrap;
 }
 
 td a:hover {
     text-decoration: underline;
 }
-.btn-all-container{
-     /* Take up remaining space */
+
+.btn-all-container {
     display: flex;
     flex-direction: column;
-    align-items:first flex-end;
+    align-items: flex-end;
     padding: 10px;
     background-color: #ffffff;
-     /* Enable horizontal scrolling if needed */
     width: 95%;
-    
 }
-.mail-all-btn{
+
+.mail-all-btn {
     padding: 10px 20px;
     font-size: 14px;
     color: rgb(255, 255, 255);
@@ -99,7 +90,6 @@ td a:hover {
     border-radius: 20px;
     cursor: pointer;
     transition: background 0.3s ease;
-     /* Ensure buttons stay inline */
     align-items: flex-end;
     justify-content: flex-end;
     white-space: nowrap;
@@ -109,9 +99,8 @@ td a:hover {
 .mail-all-btn:hover {
     background-color: #19e65ab7;
     color: #000000;
-    
 }
-/* Tooltip to show full link when hovered */
+
 td a:hover::after {
     content: attr(href);
     position: absolute;
@@ -127,17 +116,13 @@ td a:hover::after {
     z-index: 10;
 }
 
-
-/* Button styling inside the table */
-/* Button container to align buttons side by side */
 .button-container {
     display: flex;
-    gap: 8px; /* Space between buttons */
+    gap: 8px;
     justify-content: center;
     align-items: center;
 }
 
-/* Button styling inside the table */
 .action-button {
     padding: 8px 12px;
     font-size: 14px;
@@ -147,10 +132,10 @@ td a:hover::after {
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-    display: inline-flex; /* Ensure buttons stay inline */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    white-space: nowrap; /* Prevents wrapping */
+    white-space: nowrap;
 }
 
 .action-button:hover {
@@ -158,8 +143,6 @@ td a:hover::after {
     color: #000000;
 }
 
-
-/* Responsive design */
 @media (max-width: 768px) {
     .result-container {
         width: 100%;
@@ -178,16 +161,15 @@ td a:hover::after {
         max-width: 120px;
     }
 
-    /* Adjust button size for smaller screens */
     .action-button {
         padding: 6px 10px;
         font-size: 12px;
     }
 }
+
 .sent {
-    background-color: rgb(34, 237, 34);  /* Green color when sent */
+    background-color: rgb(34, 237, 34);
     color: white;
     cursor: not-allowed;
     pointer-events: none;
-  }
-  
+}

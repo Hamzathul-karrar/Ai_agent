@@ -11,7 +11,6 @@ function Login({ onLogin }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  
   const successMessage = location.state?.successMessage || '';
 
   const handleSubmit = async (e) => {
@@ -23,12 +22,10 @@ function Login({ onLogin }) {
       console.log('Login successful:', data);
       sessionStorage.setItem("username", username);
       sessionStorage.setItem("password", password);
-
       onLogin();
       navigate('/');
     } catch (error) {
       console.error('Login error:', error);
-      
       const errorMessage = error.response?.data?.error || error.message || 'Invalid username or password!';
       setError(errorMessage);
     }
@@ -36,14 +33,10 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      
       {successMessage && <p className="success-message">{successMessage}</p>}
-
       <form onSubmit={handleSubmit} className="login-form">
         <div className="login-heading">Sign In</div>
-
         {error && <p className="error-message">{error}</p>}
-
         <input
           required
           className="login-input"

@@ -14,11 +14,8 @@ function Home() {
     e.preventDefault();
     console.log('Search clicked with values:', location, businessType);
     setLoading(true);
-
-    
+   
     localStorage.removeItem('businessType');
-
-    // Store new search input in local storage
     
     localStorage.setItem('businessType', businessType);
 
@@ -66,13 +63,13 @@ function Home() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="input2">Company Name:</label>
+            <label htmlFor="input2">Business Type:</label>
             <input
               type="text"
               id="input2"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              placeholder="Enter company"
+              placeholder="Enter Business type"
               required
             />
           </div>
