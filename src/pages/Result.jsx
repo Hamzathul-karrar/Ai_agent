@@ -6,8 +6,10 @@ function Result() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [buttonState, setButtonState] = useState({}); 
-  const [bsType , setBsType] = useState(localStorage.getItem("businessType"));
+  const [bsType , setBsType] = useState();
+  setBsType(localStorage.getItem("businessType"));
 
+  
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/businesses")
