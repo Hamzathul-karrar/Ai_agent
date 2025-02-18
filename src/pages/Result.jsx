@@ -63,7 +63,7 @@ function Result() {
         .get(`http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`)
         .then((response) => {
           if (response.data) {
-            const { name: senderName, companyName, serviceDetails, contact } = response.data;
+            const { name: senderName, companyName, companyDescription, contactInfo } = response.data;
   
             // Construct email payload
             const payload = {
