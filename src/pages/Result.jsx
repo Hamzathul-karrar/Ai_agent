@@ -8,7 +8,7 @@ function Result() {
   const [buttonState, setButtonState] = useState({}); 
 
 
-  
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/businesses")
@@ -80,7 +80,7 @@ function Result() {
             };
   
             // Send data to the backend
-            sendDataToBackend("send-mail", payload, id);
+            sendDataToBackend("send", payload, id);
           } else {
             console.error("User details not found in the database.");
           }
@@ -111,7 +111,7 @@ function Result() {
       {loading ? (
         <div className="loader-container">
           <l-trio size="40" speed="1.3" color="black"></l-trio>
-          {/* <p>Loading... Please wait</p> */}
+          
         </div>
       ) : data.length === 0 ? (
         <p>No Data Found.</p>

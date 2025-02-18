@@ -21,6 +21,8 @@ function Login({ onLogin }) {
     try {
       const { data } = await axios.post('http://localhost:8080/api/login', { username, password });
       console.log('Login successful:', data);
+      sessionStorage.setItem("username", username);
+      sessionStorage.setItem("password", password);
 
       onLogin();
       navigate('/');
