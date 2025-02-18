@@ -185,7 +185,7 @@ td a:hover::after {
     }
 }
 .sent {
-    background-color: green;  /* Green color when sent */
+    background-color: rgb(34, 237, 34);  /* Green color when sent */
     color: white;
     cursor: not-allowed;
     pointer-events: none;

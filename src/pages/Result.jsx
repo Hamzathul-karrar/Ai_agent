@@ -4,8 +4,9 @@ import "./Result.css";
 
 function Result() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);  // Manage loading state per email action
-  const [buttonState, setButtonState] = useState({}); 
+  const [loadingState, setLoadingState] = useState({}); // Row-specific loading state
+  const [buttonState, setButtonState] = useState({});
+  const [mailAllLoading, setMailAllLoading] = useState(false); // Global loading for "Mail To All"
 
   useEffect(() => {
     axios
@@ -22,7 +23,10 @@ function Result() {
 
   async function sendDataToBackend(endpoint, payload, id) {
     try {
-      setLoading(true); // Start loading when sending email
+      if (id) {
+        setLoadingState((prev) => ({ ...prev, [id]: true })); // Set loading for specific row
+      }
+
       const response = await axios.post(
         `http://localhost:8080/api/${endpoint}`,
         payload,
@@ -30,15 +34,19 @@ function Result() {
       );
       console.log(`${endpoint} successful:`, response.data);
 
-      // After the email is sent, update the button state and stop loading
-      setButtonState((prevState) => ({
-        ...prevState,
-        [id]: { sent: true }, 
-      }));
-      setLoading(false); // Stop loading once email is sent
+      if (id) {
+        setButtonState((prev) => ({ ...prev, [id]: { sent: true } })); // Mark email as sent
+        setLoadingState((prev) => ({ ...prev, [id]: false })); // Stop loading for this row
+      } else {
+        setMailAllLoading(false); // Stop "Mail To All" loading
+      }
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);
-      setLoading(false); // Stop loading in case of error
+      if (id) {
+        setLoadingState((prev) => ({ ...prev, [id]: false })); // Stop loading in case of error
+      } else {
+        setMailAllLoading(false);
+      }
     }
   }
 
@@ -49,7 +57,7 @@ function Result() {
       // Get job type from local storage
       const jobType = localStorage.getItem("businessType");
 
-      // Get user details from local storage (username, password)
+      // Get user details from session storage (username, password)
       const storedUsername = sessionStorage.getItem("username");
       const storedPassword = sessionStorage.getItem("password");
 
@@ -60,11 +68,13 @@ function Result() {
 
       // Fetch user details from the Signup table
       axios
-        .get(`http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`)
+        .get(
+          `http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`
+        )
         .then((response) => {
           if (response.data) {
             const { name: senderName, companyName, companyDescription, contactInfo } = response.data;
-  
+
             // Construct email payload
             const payload = {
               recipientEmail: email,
@@ -96,6 +106,7 @@ function Result() {
 
     if (validEmails.length > 0) {
       console.log("Sending emails to:", validEmails);
+      setMailAllLoading(true); // Start loading for "Mail To All"
       sendDataToBackend("send-all-mails", { emails: validEmails });
     } else {
       console.log("No valid emails available.");
@@ -110,8 +121,12 @@ function Result() {
       ) : (
         <div>
           <div className="btn-all-container">
-            <button className="mail-all-btn" onClick={handleAllMails}>
-              Mail To All
+            <button
+              className="mail-all-btn"
+              onClick={handleAllMails}
+              disabled={mailAllLoading}
+            >
+              {mailAllLoading ? "Sending..." : "Mail To All"}
             </button>
           </div>
           <table>
@@ -147,26 +162,19 @@ function Result() {
                   <td>{item.email}</td>
                   <td>
                     <div className="button-container">
-                      <a
-                        href={`tel:${item.phone}`}
-                        className="action-button"
-                      >
+                      <a href={`tel:${item.phone}`} className="action-button">
                         Call
                       </a>
                       <button
                         className={`action-button ${
                           buttonState[item.id]?.sent ? "sent" : ""
                         }`}
-                        onClick={() => handleEmailButtonClick(item.email, item.name, item.id)}
-                        disabled={loading || buttonState[item.id]?.sent}
+                        onClick={() =>
+                          handleEmailButtonClick(item.email, item.name, item.id)
+                        }
+                        disabled={loadingState[item.id] || buttonState[item.id]?.sent}
                       >
-                        {loading ? (
-                          <l-tail-chase size="40" speed="1.75" color="black" />
-                        ) : buttonState[item.id]?.sent ? (
-                          "Sent"
-                        ) : (
-                          "Send Mail"
-                        )}
+                        {loadingState[item.id] ? "Sending..." : buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
                       </button>
                     </div>
                   </td>
