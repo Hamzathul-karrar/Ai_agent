@@ -6,10 +6,9 @@ function Result() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [buttonState, setButtonState] = useState({}); 
-  const [bsType , setBsType] = useState();
-  setBsType(localStorage.getItem("businessType"));
-
   
+
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/businesses")
@@ -46,10 +45,10 @@ function Result() {
     }
   }
 
-  function handleEmailButtonClick(email, id,name,bsType) {
-    if (email && name !== "N/A") {
-      console.log(`Sending email to: ${email} ${name} ${bsType} ${id}`);
-      sendDataToBackend("send-mail", { email , name , bsType}, id);
+  function handleEmailButtonClick(email, id,name) {
+    if (email && email !== "N/A") {
+      console.log(`Sending email to: ${email} ${name}  ${id}`);
+      sendDataToBackend("send-mail", { email , name }, id);
     }
   }
 
@@ -72,7 +71,7 @@ function Result() {
       {loading ? (
         <div className="loader-container">
           <l-trio size="40" speed="1.3" color="black"></l-trio>
-          {/* <p>Loading... Please wait</p> */}
+          
         </div>
       ) : data.length === 0 ? (
         <p>No Data Found.</p>
@@ -126,7 +125,7 @@ function Result() {
                         className={`action-button ${
                           buttonState[item.id]?.sent ? "sent" : ""
                         }`}
-                        onClick={() => handleEmailButtonClick(item.email, item.id,item.name,bsType)}
+                        onClick={() => handleEmailButtonClick(item.email, item.id,item.name)}
                       >
                         {buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
                       </button>

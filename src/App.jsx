@@ -15,12 +15,10 @@ function App() {
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    sessionStorage.setItem("isAuthenticated", "true");
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    sessionStorage.removeItem("isAuthenticated");
   };
 
   return (
