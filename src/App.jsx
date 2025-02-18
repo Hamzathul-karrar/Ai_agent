@@ -83,7 +83,6 @@ function Sidebar({ handleLogout }) {
   );
 }
 
-// ✅ Define PropTypes for Sidebar
 Sidebar.propTypes = {
   handleLogout: PropTypes.func.isRequired,
 };

@@ -5,7 +5,7 @@ import "./Result.css";
 function Result() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [buttonState, setButtonState] = useState({}); // Track button state
+  const [buttonState, setButtonState] = useState({}); 
 
   useEffect(() => {
     axios
@@ -33,10 +33,10 @@ function Result() {
       );
       console.log(`${endpoint} successful:`, response.data);
       
-      // Update the button state (mark as sent)
+      
       setButtonState((prevState) => ({
         ...prevState,
-        [id]: { sent: true }, // Update the button state for this email
+        [id]: { sent: true }, 
       }));
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);

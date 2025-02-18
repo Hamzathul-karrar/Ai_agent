@@ -11,7 +11,7 @@ function Login({ onLogin }) {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ Get success message from SignUp page
+  
   const successMessage = location.state?.successMessage || '';
 
   const handleSubmit = async (e) => {
@@ -34,7 +34,7 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-container">
-      {/* ✅ Show success message if redirected from signup */}
+      
       {successMessage && <p className="success-message">{successMessage}</p>}
 
       <form onSubmit={handleSubmit} className="login-form">

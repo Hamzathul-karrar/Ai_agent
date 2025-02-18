@@ -46,14 +46,14 @@ function SignUp() {
 
       console.log('Signup successful:', response.data);
       
-      // ✅ Redirect to login page with success message
+      
       navigate('/login', { state: { successMessage: 'Signup successful! Please log in.' } });
 
     } catch (error) {
       console.error('Signup error:', error);
       
       if (error.response && error.response.data && error.response.data.message) {
-        setError(error.response.data.message); // Show specific backend error
+        setError(error.response.data.message); 
       } else {
         setError('Signup failed. Please try again.');
       }
