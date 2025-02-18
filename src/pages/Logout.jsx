@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 
 function Logout( onLogout) {
   const navigate = useNavigate();
-
   useEffect(() => {
-    
-
     onLogout();
     navigate("/login");
   }, [navigate, onLogout]);
