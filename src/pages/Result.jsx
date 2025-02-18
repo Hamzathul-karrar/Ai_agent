@@ -6,8 +6,7 @@ function Result() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [buttonState, setButtonState] = useState({}); 
-  const [bsType , setBsType] = useState();
-  setBsType(localStorage.getItem("businessType"));
+
 
   
   useEffect(() => {
@@ -46,12 +45,52 @@ function Result() {
     }
   }
 
-  function handleEmailButtonClick(email, id,name,bsType) {
-    if (email && name !== "N/A") {
-      console.log(`Sending email to: ${email} ${name} ${bsType} ${id}`);
-      sendDataToBackend("send-mail", { email , name , bsType}, id);
+  function handleEmailButtonClick(email, name, id) {
+    if (email && email !== "N/A") {
+      console.log(`Sending email to: ${email}`);
+  
+      // Get job type from local storage
+      const jobType = localStorage.getItem("businessType");
+  
+      // Get user details from local storage (username, password)
+      const storedUsername = sessionStorage.getItem("username");
+      const storedPassword = sessionStorage.getItem("password");
+  
+      if (!storedUsername || !storedPassword) {
+        console.error("User not logged in.");
+        return;
+      }
+  
+      // Fetch user details from the Signup table
+      axios
+        .get(`http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`)
+        .then((response) => {
+          if (response.data) {
+            const { name: senderName, companyName, serviceDetails, contact } = response.data;
+  
+            // Construct email payload
+            const payload = {
+              recipientEmail: email,
+              recipientName: name,
+              jobType: jobType,
+              senderName: senderName,
+              companyName: companyName,
+              serviceDetails: serviceDetails,
+              contact: contact,
+            };
+  
+            // Send data to the backend
+            sendDataToBackend("send-mail", payload, id);
+          } else {
+            console.error("User details not found in the database.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching user details:", error);
+        });
     }
   }
+  
 
   function handleAllMails() {
     const validEmails = data
@@ -126,7 +165,7 @@ function Result() {
                         className={`action-button ${
                           buttonState[item.id]?.sent ? "sent" : ""
                         }`}
-                        onClick={() => handleEmailButtonClick(item.email, item.id,item.name,bsType)}
+                        onClick={() => handleEmailButtonClick(item.email, item.id,item.name)}
                       >
                         {buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
                       </button>
