@@ -10,17 +10,17 @@ import "./pages/App.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("isAuthenticated") === "false"
+    sessionStorage.getItem("isAuthenticated") === "true"
   );
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    localStorage.setItem("isAuthenticated", "true");
+    sessionStorage.setItem("isAuthenticated", "true");
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("isAuthenticated");
   };
 
   return (
@@ -30,7 +30,6 @@ function App() {
           <>
             <Route path="/" element={<Login onLogin={handleLogin} />} />
             <Route path="/signup" element={<SignUp />} />
-           
             <Route path="*" element={<Navigate to="/" />} />
           </>
         ) : (

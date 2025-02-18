@@ -40,17 +40,23 @@ function SignUp() {
 
       console.log("Response Status:", response.status);
 
-      
       if (response.status !== 200 && response.status !== 201) {
         throw new Error(`Signup failed. Status: ${response.status}`);
       }
 
       console.log('Signup successful:', response.data);
-      navigate('/login'); 
+      
+      // ✅ Redirect to login page with success message
+      navigate('/login', { state: { successMessage: 'Signup successful! Please log in.' } });
 
     } catch (error) {
       console.error('Signup error:', error);
-      setError('Signup failed. Please try again.');
+      
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message); // Show specific backend error
+      } else {
+        setError('Signup failed. Please try again.');
+      }
     }
   };
 

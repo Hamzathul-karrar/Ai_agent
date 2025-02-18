@@ -14,7 +14,7 @@ function Result() {
         const resData = response.data;
         const formattedData = Array.isArray(resData)
           ? resData
-          : resData.businesses || [];
+          :  [];
         setData(formattedData);
         setLoading(false);
       })
