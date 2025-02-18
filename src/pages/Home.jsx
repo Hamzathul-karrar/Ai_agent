@@ -15,11 +15,11 @@ function Home() {
     console.log('Search clicked with values:', location, businessType);
     setLoading(true);
 
-    localStorage.removeItem('location');
+    
     localStorage.removeItem('businessType');
 
     // Store new search input in local storage
-    localStorage.setItem('location', location);
+    
     localStorage.setItem('businessType', businessType);
 
     try {
