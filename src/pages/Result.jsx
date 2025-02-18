@@ -4,69 +4,66 @@ import "./Result.css";
 
 function Result() {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);  // Manage loading state per email action
   const [buttonState, setButtonState] = useState({}); 
-
-
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/businesses")
       .then((response) => {
         const resData = response.data;
-        const formattedData = Array.isArray(resData)
-          ? resData
-          :  [];
+        const formattedData = Array.isArray(resData) ? resData : [];
         setData(formattedData);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        setLoading(false);
       });
   }, []);
 
   async function sendDataToBackend(endpoint, payload, id) {
     try {
+      setLoading(true); // Start loading when sending email
       const response = await axios.post(
         `http://localhost:8080/api/${endpoint}`,
         payload,
         { headers: { "Content-Type": "application/json" } }
       );
       console.log(`${endpoint} successful:`, response.data);
-      
-      
+
+      // After the email is sent, update the button state and stop loading
       setButtonState((prevState) => ({
         ...prevState,
         [id]: { sent: true }, 
       }));
+      setLoading(false); // Stop loading once email is sent
     } catch (error) {
       console.error(`Error sending ${endpoint}:`, error);
+      setLoading(false); // Stop loading in case of error
     }
   }
 
   function handleEmailButtonClick(email, name, id) {
     if (email && email !== "N/A") {
       console.log(`Sending email to: ${email}`);
-  
+
       // Get job type from local storage
       const jobType = localStorage.getItem("businessType");
-  
+
       // Get user details from local storage (username, password)
       const storedUsername = sessionStorage.getItem("username");
       const storedPassword = sessionStorage.getItem("password");
-  
+
       if (!storedUsername || !storedPassword) {
         console.error("User not logged in.");
         return;
       }
-  
+
       // Fetch user details from the Signup table
       axios
         .get(`http://localhost:8080/api/getUser?username=${storedUsername}&password=${storedPassword}`)
         .then((response) => {
           if (response.data) {
-            const { name: senderName, companyName, companyDescription, contactInfo } = response.data;
+            const { name: senderName, companyName, serviceDetails, contact } = response.data;
   
             // Construct email payload
             const payload = {
@@ -79,8 +76,8 @@ function Result() {
               serviceDetails: companyDescription,
               contact: contactInfo,
             };
-  
-            // Send data to the backend
+
+            // Call the function to send data to the backend
             sendDataToBackend("send", payload, id);
           } else {
             console.error("User details not found in the database.");
@@ -91,7 +88,6 @@ function Result() {
         });
     }
   }
-  
 
   function handleAllMails() {
     const validEmails = data
@@ -109,12 +105,7 @@ function Result() {
   return (
     <div className="result-container">
       <h1>Result</h1>
-      {loading ? (
-        <div className="loader-container">
-          <l-trio size="40" speed="1.3" color="black"></l-trio>
-          
-        </div>
-      ) : data.length === 0 ? (
+      {data.length === 0 ? (
         <p>No Data Found.</p>
       ) : (
         <div>
@@ -163,11 +154,19 @@ function Result() {
                         Call
                       </a>
                       <button
-                        className={`action-button ${buttonState[item.id]?.sent ? "sent" : ""}`}
-                        onClick={() => handleEmailButtonClick(item.email, item.name,item.id)}
-                        disabled={buttonState[item.id]?.sent}
+                        className={`action-button ${
+                          buttonState[item.id]?.sent ? "sent" : ""
+                        }`}
+                        onClick={() => handleEmailButtonClick(item.email, item.name, item.id)}
+                        disabled={loading || buttonState[item.id]?.sent}
                       >
-                        {buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
+                        {loading ? (
+                          <l-tail-chase size="40" speed="1.75" color="black" />
+                        ) : buttonState[item.id]?.sent ? (
+                          "Sent"
+                        ) : (
+                          "Send Mail"
+                        )}
                       </button>
                     </div>
                   </td>
