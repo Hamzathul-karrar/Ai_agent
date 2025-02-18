@@ -44,8 +44,10 @@ function Home() {
 
   return (
     <div className="home-container">
-      <h1>Search Details</h1>
-
+      {loading ? (
+        <h1>Scraping Business Details</h1>
+      ):(<h1>Search Details</h1>)}
+      
       {loading ? (
         <div className="loader-container">
           <l-trio size="40" speed="1.3" color="black"></l-trio>
