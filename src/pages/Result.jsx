@@ -72,6 +72,7 @@ function Result() {
             const payload = {
               recipientEmail: email,
               recipientName: name,
+              subject: "Business Email",
               jobType: jobType,
               senderName: senderName,
               companyName: companyName,
