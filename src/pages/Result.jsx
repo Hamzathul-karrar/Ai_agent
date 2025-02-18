@@ -163,10 +163,9 @@ function Result() {
                         Call
                       </a>
                       <button
-                        className={`action-button ${
-                          buttonState[item.id]?.sent ? "sent" : ""
-                        }`}
+                        className={`action-button ${buttonState[item.id]?.sent ? "sent" : ""}`}
                         onClick={() => handleEmailButtonClick(item.email, item.id,item.name)}
+                        disabled={buttonState[item.id]?.sent}
                       >
                         {buttonState[item.id]?.sent ? "Sent" : "Send Mail"}
                       </button>
