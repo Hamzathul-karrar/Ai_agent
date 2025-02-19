@@ -6,7 +6,8 @@ function Result() {
   const [data, setData] = useState([]);
   const [loadingState, setLoadingState] = useState({}); 
   const [buttonState, setButtonState] = useState({});
-  const [mailAllLoading, setMailAllLoading] = useState(false); 
+  const [mailAllLoading, setMailAllLoading] = useState(false);
+  const [targetId, setTargetId] = useState(null);
 
   useEffect(() => {
     axios
@@ -137,7 +138,8 @@ function Result() {
             </thead>
             <tbody>
               {data.map((item) => (
-                <tr key={item.id}>
+                <tr key={item.id}
+                  className={targetId === item.id ? "highlight" : ""}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.phone || "N/A"}</td>
@@ -156,12 +158,12 @@ function Result() {
                       <a href={`tel:${item.phone}`} className="action-button">
                         Call
                       </a>
-                      <button
+                      <button 
                         className={`action-button ${
                           buttonState[item.id]?.sent ? "sent" : ""
                         }`}
                         onClick={() =>
-                          handleEmailButtonClick(item.email, item.name, item.id)
+                          {handleEmailButtonClick(item.email, item.name, item.id), setTargetId(item.id)}
                         }
                         disabled={loadingState[item.id] || buttonState[item.id]?.sent}
                       >
