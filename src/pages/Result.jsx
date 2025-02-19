@@ -139,7 +139,7 @@ function Result() {
             <tbody>
               {data.map((item) => (
                 <tr key={item.id}
-                  className={targetId === item.id ? "highlight" : ""}>
+                  className={loadingState[item.id] ?  "" : targetId === item.id ?  "highlight" : ""}>
                   <td>{item.id}</td>
                   <td>{item.name}</td>
                   <td>{item.phone || "N/A"}</td>

@@ -172,7 +172,9 @@ td a:hover::after {
     color: white;
     cursor: not-allowed;
     pointer-events: none;
+    border: #2f2a2a 1px solid;
+    box-shadow: 0px 4px 6px rgba(10, 10, 10, 0.3);
 }
-.hihglight {
+.highlight {
     background-color: #46d750;
 }
